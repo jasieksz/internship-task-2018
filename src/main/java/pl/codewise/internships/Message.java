@@ -41,8 +41,8 @@ public class Message implements Comparable<Message> {
         return Long.compare(this.creationTime, message.getCreationTime());
     }
 
-    public static Predicate<Message> isMessageExpired() {
-        return message -> System.currentTimeMillis() - message.getCreationTime() > 1000*60*5;
+    public static Predicate<Message> isMessageExpired(long time) {
+        return message -> System.currentTimeMillis() - message.getCreationTime() > time;
     }
 
     public static Predicate<Message> isErrorHttp() {

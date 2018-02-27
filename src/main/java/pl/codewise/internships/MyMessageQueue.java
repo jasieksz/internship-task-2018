@@ -10,10 +10,6 @@ public class MyMessageQueue implements MessageQueue {
 
     private PriorityBlockingQueue<Message> blockingQueue;
 
-    public int getSize() {
-        return blockingQueue.size();
-    }
-
     public MyMessageQueue() {
         this.blockingQueue = new PriorityBlockingQueue<Message>(100);
     }
@@ -47,7 +43,7 @@ public class MyMessageQueue implements MessageQueue {
         while (it.hasNext() && messageCount < 100){
             Message message = it.next();
             messageCount += 1;
-            if (!Message.isMessageExpired().test(message)) {
+            if (!Message.isMessageExpired(1000 * 60 * 5).test(message)) {
                 snapshotMessages.add(message);
             } else {
                 it.remove();
@@ -65,12 +61,12 @@ public class MyMessageQueue implements MessageQueue {
 //                .count();
         Iterator<Message> it = blockingQueue.iterator();
         int messageCount = 0;
-        int errorCount = 0;
+        long errorCount = 0;
 
         while (it.hasNext() && messageCount < 100){
             Message message = it.next();
             messageCount += 1;
-            if (!Message.isMessageExpired().test(message)){
+            if (!Message.isMessageExpired(1000 * 60 * 5).test(message)){
                 if (Message.isErrorHttp().test(message)){
                     errorCount += 1;
                 }
@@ -78,9 +74,7 @@ public class MyMessageQueue implements MessageQueue {
                 it.remove();
                 messageCount -= 1;
             }
-
         }
-
         return errorCount;
     }
 }

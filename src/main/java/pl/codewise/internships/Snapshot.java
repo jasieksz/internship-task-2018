@@ -11,6 +11,11 @@ public class Snapshot {
         this.messages = messages;
     }
 
+    public List<Message> getMessages() {
+        return messages;
+
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -23,11 +28,6 @@ public class Snapshot {
     public int hashCode() {
 
         return Objects.hash(messages);
-    }
-
-    public List<Message> getMessages() {
-        return messages;
-
     }
 
     @Override

@@ -9,6 +9,9 @@ import java.util.List;
 
 import static org.junit.Assert.*;
 
+/*
+    Only single thread basic unit tests
+ */
 public class MessageQueueTest {
 
     private MyMessageQueue messageQueue;
@@ -30,6 +33,11 @@ public class MessageQueueTest {
         messageArray.add(m1);
         messageArray.add(m2);
         messageArray.add(m3);
+        try {
+            Thread.sleep(100);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
         s0 = new Snapshot(messageArray);
 
@@ -52,7 +60,7 @@ public class MessageQueueTest {
 
     @Test
     public void isMessageExpiredPredicateTest(){
-        assertFalse(Message.isMessageExpired().test(m0));
+        assertTrue(Message.isMessageExpired(10).test(m0));
     }
 
 }
